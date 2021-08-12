@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="false" />
+
+
+    Map server
+    <node name="map_server_slam" pkg="map_server" type="map_server" args="$(find tianracer_navigation)/mefly_sub/maps/levine.yaml">
+        
+    </node>
+    
+
+
+    <!-- Navstack -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base">
+        <!-- local planner -->
+        <!-- costmap layers -->    
+        <rosparam file="$(find tianracer_navigation)/mefly_sub/param/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find tianracer_navigation)/mefly_sub/param/global_costmap_params.yaml" command="load"/> 
+        <!-- move_base params -->
+        <rosparam file="$(find tianracer_navigation)/mefly_sub/param/move_base_params.yaml" command="load"/>
+    </node>
+
+</launch>
