@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="true" />
+    
+    <!-- move_base DWA-->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+        <rosparam file="$(find tianracer_competition)/launch/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find tianracer_competition)/launch/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find tianracer_competition)/launch/move_base/global_planner_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_competition)/launch/move_base/dwa_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_competition)/launch/move_base/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_competition)/launch/move_base/global_costmap_params.yaml" command="load" />
+    </node>
+
+    <!-- cmd_vel to ackermann_cmd -->
+    <node pkg="tianracer_competition" type="cmd_vet_to_drive.py" name="cmd_vet_to_drive" />
+    <!-- <node pkg="tianr/acer_navigation" type="cmd_vel_to_ackermann_drive.py" name="cmd_vel_to_ackermann_drive" > -->
+        <!-- <param name="twist_cmd_topic" value="/cmd_vel" />
+	    <param name="ackermann_cmd_topic" value="/tianracer/ackermann_cmd" />
+        <param if="$(eval base=='compact')" name="wheelbase" value="0.255" />
+        <param if="$(eval base=='standard')" name="wheelbase" value="0.33" />
+        <param if="$(eval base=='fullsize')" name="wheelbase" value="0.6" /> -->
+    <!-- </node>     -->
+
+
+    <node name="rviz_dwa" pkg="rviz" type="rviz" args="-d $(find tianracer_competition)/rviz/vis.rviz" if="$(arg use_rviz)" />
+
+</launch>

@@ -15,11 +15,14 @@
     <arg name="init_a" default="0.0" />
     <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
     <!-- for Map server -->
-    <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
-    <arg name="map_path" default="$(find tianracer_slam)/maps" />
+    <!-- <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
+    <arg name="map_path" default="$(find tianracer_slam)/maps" /> -->
+
+    
 
     <!-- Map server -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml"/>
+    <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml"/> -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find f1tenth_simulator)/maps/levine_blocked.yaml"/>
 
     <!-- Localization -->
     <!-- AMCL -->
@@ -43,8 +46,10 @@
         <param if="$(eval base=='compact')" name="footprint" value="[[0.34,0.1],[0.34,-0.1],[-0.05,-0.1],[-0.05,0.1]]" />
         <param if="$(eval base=='standard')" name="footprint" value="[[0.42,0.14],[0.42,-0.14],[-0.12,-0.14],[-0.12,0.14]]" />
         <param if="$(eval base=='fullsize')" name="footprint" value="[[0.8,0.27],[0.8,-0.27],[-0.2,-0.27],[-0.2,0.27]]" />
-        <param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
+        <param name="clearing_rotation_allowed" value="false" /> 
+        
     </node>
+        <!-- Our carlike robot is not able to rotate in place -->
 
     <!-- cmd_vel to ackermann_cmd -->
     <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" >
